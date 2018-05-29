@@ -1,0 +1,22 @@
+bob_foo:
+  user: bob
+  ident: foo
+  url: https://foo.com
+
+bob_bar:
+  user: bob
+  ident: bar
+  url: https://bar.com
+
+bob_rand:
+  user: bob
+  ident: <%= SecureRandom.urlsafe_base64 6 %>
+  url: https://google.com
+
+anon_rand_1:
+  ident: <%= SecureRandom.urlsafe_base64 6 %>
+  url: https://google.com
+
+anon_rand_2:
+  ident: <%= SecureRandom.urlsafe_base64 6 %>
+  url: https://google.com
