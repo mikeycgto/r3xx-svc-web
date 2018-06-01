@@ -1,5 +1,7 @@
 class LinksController < ApplicationController
-  include Responders::CollectionResponder
+  LinkNotInSession = Class.new(StandardError)
+
+  self.responder = ApplicationResponder::CollectionResponder
 
   before_action :find_link_from_current_user_or_session, only: %i(edit update destroy)
 
@@ -45,7 +47,7 @@ class LinksController < ApplicationController
   end
 
   def links_from_session
-    links = Link.where(id: session[:link_ids]) if session.key? :link_ids
+    links = Link.where(id: session[:link_idents]) if session.key? :link_idents
     links.blank? ? links : nil
   end
 
@@ -53,16 +55,26 @@ class LinksController < ApplicationController
     if current_user then current_user.links.create(link_params)
     else
       Link.create(link_params).tap do |link|
-        session[:link_ids] ||= []
-        session[:link_ids] << link.id
+        session[:link_idents] ||= []
+        session[:link_idents] << link.ident
       end
     end
   end
 
   def find_link_from_current_user_or_session
-    if current_user then current_user.links.where(ident: params[:id])
-    else
-      Link.where(ident: params[:id]) if session[:link_ids].try(:includes?, params[:id])
-    end
+    @link = find_link_from_current_user || find_link_from_session
+  rescue ActiveRecord::RecordNotFound, LinkNotInSession
+    redirect_to links_url, flash: { alert: 'Failed to find Link resource' }
+  end
+
+  def find_link_from_current_user
+    current_user.links.where(ident: params[:id]).first! if current_user.present?
+  end
+
+  def find_link_from_session
+    raise LinkNotInSession if session[:link_idents].blank?
+    raise LinkNotInSession unless params[:id].in? session[:link_idents]
+
+    Link.where(ident: params[:id]).first!
   end
 end
