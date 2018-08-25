@@ -7,7 +7,7 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     included do
       setup do
         @create_params = { link: { url: 'http://foo.com' } }
-        @update_params = { link: { url: 'http://new.com' } }
+        #@update_params = { link: { url: 'http://new.com' } }
       end
 
       test 'GET new' do
@@ -25,48 +25,48 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
         assert_redirected_to links_url
       end
 
-      test 'GET edit' do
-        get edit_link_path(edit_link)
+      #test 'GET edit' do
+        #get edit_link_path(edit_link)
 
-        assert_response :success
-      end
+        #assert_response :success
+      #end
 
-      test 'GET edit without access' do
-        get edit_link_path(links(:anon_rand_1))
+      #test 'GET edit without access' do
+        #get edit_link_path(links(:anon_rand_1))
 
-        assert_redirected_to links_url
-        refute_nil flash[:alert]
-      end
+        #assert_redirected_to links_url
+        #refute_nil flash[:alert]
+      #end
 
-      test 'GET edit not found' do
-        get edit_link_path(0)
+      #test 'GET edit not found' do
+        #get edit_link_path(0)
 
-        assert_redirected_to links_url
-        refute_nil flash[:alert]
-      end
+        #assert_redirected_to links_url
+        #refute_nil flash[:alert]
+      #end
 
-      test 'PATCH update' do
-        patch link_path(edit_link), params: @update_params
+      #test 'PATCH update' do
+        #patch link_path(edit_link), params: @update_params
 
-        assert_redirected_to links_url
-        refute_nil flash[:notice]
-        assert_equal @update_params[:link][:url], edit_link.reload.url
-      end
+        #assert_redirected_to links_url
+        #refute_nil flash[:notice]
+        #assert_equal @update_params[:link][:url], edit_link.reload.url
+      #end
 
-      test 'PATCH update without access' do
-        patch link_path(links(:anon_rand_1)), params: @update_params
+      #test 'PATCH update without access' do
+        #patch link_path(links(:anon_rand_1)), params: @update_params
 
-        assert_redirected_to links_url
-        refute_nil flash[:alert]
-        refute_equal @update_params[:link][:url], links(:anon_rand_1).reload.url
-      end
+        #assert_redirected_to links_url
+        #refute_nil flash[:alert]
+        #refute_equal @update_params[:link][:url], links(:anon_rand_1).reload.url
+      #end
 
-      test 'PATCH update not found' do
-        patch link_path(0), params: @update_params
+      #test 'PATCH update not found' do
+        #patch link_path(0), params: @update_params
 
-        assert_redirected_to links_url
-        refute_nil flash[:alert]
-      end
+        #assert_redirected_to links_url
+        #refute_nil flash[:alert]
+      #end
 
       test 'DELETE destroy' do
         delete link_path(edit_link)
@@ -80,11 +80,10 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
       end
 
       test 'DELETE destroy without access' do
-        delete link_path(links(:anon_rand_1)), params: @update_params
+        delete link_path(links(:anon_rand_1))
 
         assert_redirected_to links_url
         refute_nil flash[:alert]
-        refute_equal @update_params[:link][:url], links(:anon_rand_1).reload.url
       end
 
       test 'DELETE destroy not found' do
@@ -105,6 +104,13 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
       @user = users(:bob)
 
       login_as @user, scope: :user
+    end
+
+    test 'GET index' do
+      get links_path
+
+      assert_response :success
+      assert_select '#links-table tbody tr', count: Link.where(user: @user).count
     end
 
     test 'POST create associates user' do
@@ -128,6 +134,21 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     end
 
     include TestCases
+
+    test 'GET index without any links in session' do
+      get links_path
+
+      assert_redirected_to root_url
+    end
+
+    test 'GET with links in session' do
+      create_link
+
+      get links_path
+
+      assert_response :success
+      assert_select '#links-table tbody tr', count: 1
+    end
 
     test 'POST adds to session' do
       post links_path, params: @create_params

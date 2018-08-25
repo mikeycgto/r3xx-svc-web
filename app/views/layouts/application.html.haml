@@ -1,6 +1,33 @@
 !!!
 %html
   %head
-    %title r3xx.io
+    %title r3xx.io | HTTP Redirect Service
+
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
+
+    = csrf_meta_tags
+
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Fira+Mono'
+    = stylesheet_link_tag 'application', media: 'all', integrity: true
+    = javascript_include_tag 'application', integrity: true
   %body
-    = yield
+    %nav.navbar.navbar-expand-md.navbar-dark.bg-primary
+      .container
+        = link_to 'r3xx.io', root_path, class: 'navbar-brand'
+
+        %button.navbar-toggler{data: { toggle: 'collapse', target: '#navbarSupportedContent' }}
+          %span.navbar-toggler-icon
+
+        .collapse.navbar-collapse.justify-content-end#navbarSupportedContent
+          %ul.navbar-nav.text-right
+            %li.nav-item{class: current_page?(controller: '/links') ? 'active' : nil}
+              = link_to 'Links', links_path, class: 'nav-link'
+            - unless user_signed_in?
+              %li.nav-item
+                = link_to 'Login', new_user_session_path, class: 'nav-link'
+
+    .container.mt-5
+      = yield
+
+    = javascript_include_tag 'footer'

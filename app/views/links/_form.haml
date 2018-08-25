@@ -1,0 +1,9 @@
+= bootstrap_form_for link, class: 'col-12 mx-auto', style: 'max-width: 80%' do |f|
+  = f.text_field :url, hide_label: true, placeholder: 'Enter a valid url'
+
+  .form-group
+    - if current_page?(controller: '/home', action: 'index')
+      %button.btn.btn-light.btn-lg.btn-block Create
+    - else
+      %button.btn.btn-primary.btn-lg.btn-block
+        = link.new_record? ? 'Create' : 'Update'

@@ -1,0 +1,21 @@
+%tr
+  %td
+    = link_to link.url, target: '_new' do
+      = link.url
+      %i.fas.fa-external-link-alt
+    -#.float-right
+      %a{href: link.shortened_url} #{link.ident}
+
+  %td
+    - if user_signed_in?
+      = link_to number_with_delimiter(link.hits_count), link_hits_path(link)
+    - else
+      = number_with_delimiter(link.hits_count)
+  %td= l link.created_at.to_date, format: :short
+  %td
+    %button.btn.btn-primary.btn-link.text-primary.copy-btn{data: {'clipboard-text': link.shortened_url}}
+      %i.fas.fa-copy
+      %span Copy Clipboard
+    = link_to link_path(link), method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-link btn-danger text-danger' do
+      %i.fas.fa-trash-alt
+      %span Delete

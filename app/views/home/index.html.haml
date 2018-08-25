@@ -1,2 +1,15 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+.container.h-100
+  .row.h-100.justify-content-center.align-items-center
+    .w-100
+      %div.px-2.mb-5
+        %h1.display-4.text-center r3xx.io
+        %h5.text-center URL Shortener and HTTP Redirect Service
+      = render 'links/form', link: @link
+
+      - if session[:link_idents].present?
+        %div.text-center
+          %span.mr-4
+            Want to save your
+            = link_to 'links', links_path, class: 'text-light'
+            \?
+          = link_to 'Sign up', new_user_registration_path, class: 'btn btn-light btn-large'

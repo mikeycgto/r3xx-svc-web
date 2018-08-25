@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_29_011901) do
+ActiveRecord::Schema.define(version: 2018_08_18_222451) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -33,15 +33,38 @@ ActiveRecord::Schema.define(version: 2018_05_29_011901) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "hits", force: :cascade do |t|
+    t.integer "link_id", null: false
+    t.string "domain"
+    t.string "remote_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_hits_on_created_at"
+    t.index ["link_id"], name: "index_hits_on_link_id"
+  end
+
   create_table "links", force: :cascade do |t|
     t.integer "user_id"
+    t.string "domain", null: false
     t.string "ident", null: false
     t.string "url", null: false
-    t.integer "hits", default: 0, null: false
+    t.integer "hits_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ident"], name: "index_links_on_ident", unique: true
     t.index ["user_id"], name: "index_links_on_user_id"
+  end
+
+  create_table "misses", force: :cascade do |t|
+    t.string "link_ident"
+    t.string "domain"
+    t.string "remote_address"
+    t.string "user_agent"
+    t.boolean "recorded_as_hit", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_misses_on_created_at"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,22 +1,32 @@
 bob_foo:
   user: bob
   ident: foo
+  domain: r3xx.io
   url: https://foo.com
 
 bob_bar:
   user: bob
   ident: bar
+  domain: r3xx.io
   url: https://bar.com
 
 bob_rand:
   user: bob
+  domain: r3xx.io
   ident: <%= SecureRandom.urlsafe_base64 6 %>
   url: https://google.com
 
+anon_baz:
+  domain: r3xx.io
+  ident: baz
+  url: https://baz.com
+
 anon_rand_1:
+  domain: r3xx.io
   ident: <%= SecureRandom.urlsafe_base64 6 %>
   url: https://google.com
 
 anon_rand_2:
+  domain: r3xx.io
   ident: <%= SecureRandom.urlsafe_base64 6 %>
   url: https://google.com

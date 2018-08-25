@@ -1,0 +1,19 @@
+.row.align-items-center
+  .w-100.clearfix
+    %h2.mb-5.float-left Links
+
+    - unless user_signed_in?
+      .alert.alert-info.float-right
+        = link_to 'Create', new_user_registration_path, class: 'alert-link'
+        an account to save your links
+  .w-100
+    %table.table#links-table
+      %thead
+        %tr
+          %th{scope: 'col'} Link
+          %th{scope: 'col'} Hits
+          %th{scope: 'col'} Created
+          %th{scope: 'col'} Actions
+      %tbody
+        - @links.each do |link|
+          = render link

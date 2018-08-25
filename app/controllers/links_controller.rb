@@ -6,9 +6,11 @@ class LinksController < ApplicationController
   before_action :find_link_from_current_user_or_session, only: %i(edit update destroy)
 
   def index
-    @links = links_from_current_user || links_from_session || []
+    @links = user_signed_in? ? links_from_current_user : links_from_session
 
-    respond_with @links
+    if @links.nil? then redirect_to root_url
+    else respond_with @links
+    end
   end
 
   def new
@@ -23,12 +25,13 @@ class LinksController < ApplicationController
     respond_with @link
   end
 
-  def update
-    @link.update(link_params)
+  #def update
+    #@link.update(link_params)
 
-    respond_with @link
-  end
+    #respond_with @link
+  #end
 
+  # TODO remove from session is not logged
   def destroy
     @link.destroy
 
@@ -47,8 +50,7 @@ class LinksController < ApplicationController
   end
 
   def links_from_session
-    links = Link.where(id: session[:link_idents]) if session.key? :link_idents
-    links.blank? ? links : nil
+    Link.where(ident: session[:link_idents]).load if session.key? :link_idents
   end
 
   def create_link_from_current_user_or_session

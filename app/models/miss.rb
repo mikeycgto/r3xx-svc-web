@@ -1,0 +1,2 @@
+class Miss < ApplicationRecord
+end

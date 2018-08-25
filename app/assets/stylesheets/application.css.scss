@@ -1,0 +1,30 @@
+/*
+ *= require_self
+ */
+
+@import "variables";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+html,
+body {
+    height: 100%;
+}
+
+body.root {
+    display: -ms-flexbox;
+    display: flex;
+    color: #fff;
+    text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+    box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+    background-color: $background;
+}
+
+.top-links {
+    line-height:3.5em;
+
+    a {
+        margin-left:2.5em;
+    }
+}

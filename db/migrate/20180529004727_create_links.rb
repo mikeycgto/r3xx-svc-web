@@ -1,12 +1,13 @@
 class CreateLinks < ActiveRecord::Migration[5.2]
   def change
     create_table :links do |t|
-      t.references :user, null: true
+      t.references :user, foreign_key: true, null: true
 
+      t.string     :domain, null: false
       t.string     :ident, null: false
       t.string     :url, null: false
 
-      t.integer    :hits, null: false, default: 0
+      t.integer    :hits_count, default: 0, null: false
 
       t.timestamps
 
