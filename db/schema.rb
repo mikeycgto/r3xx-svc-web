@@ -35,9 +35,18 @@ ActiveRecord::Schema.define(version: 2018_08_18_222451) do
 
   create_table "hits", force: :cascade do |t|
     t.integer "link_id", null: false
-    t.string "domain"
-    t.string "remote_address"
-    t.string "user_agent"
+    t.string "remote_address", null: false
+    t.string "user_agent", null: false
+    t.string "location_country_code"
+    t.string "location_country_name"
+    t.string "location_region_name"
+    t.string "location_city_name"
+    t.string "client_browser_name"
+    t.string "client_browser_version"
+    t.string "client_device_name"
+    t.string "client_device_type"
+    t.string "client_os_name"
+    t.string "client_os_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_hits_on_created_at"
@@ -57,14 +66,25 @@ ActiveRecord::Schema.define(version: 2018_08_18_222451) do
   end
 
   create_table "misses", force: :cascade do |t|
-    t.string "link_ident"
-    t.string "domain"
-    t.string "remote_address"
-    t.string "user_agent"
+    t.string "link_ident", null: false
+    t.string "domain", null: false
+    t.string "remote_address", null: false
+    t.string "user_agent", null: false
     t.boolean "recorded_as_hit", default: false, null: false
+    t.string "location_country_code"
+    t.string "location_country_name"
+    t.string "location_region_name"
+    t.string "location_city_name"
+    t.string "client_browser_name"
+    t.string "client_browser_version"
+    t.string "client_device_name"
+    t.string "client_device_type"
+    t.string "client_os_name"
+    t.string "client_os_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_misses_on_created_at"
+    t.index ["link_ident"], name: "index_misses_on_link_ident"
   end
 
   create_table "users", force: :cascade do |t|

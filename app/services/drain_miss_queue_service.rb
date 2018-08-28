@@ -12,7 +12,7 @@ class DrainMissQueueService
   private
 
   def create_miss(domain, ident, raddr, ua)
-    Miss.create(
+    Miss.create!(
       domain: domain, link_ident: ident, remote_address: raddr, user_agent: ua
     )
   end

@@ -1,0 +1,16 @@
+.row.align-items-center
+  .w-100.clearfix
+    %h2.mb-5.float-left
+      Hits
+      %small.text-muted= @link.shortened_url
+  .w-100
+    %table.table#hits-table
+      %thead
+        %tr
+          %th{scope: 'col'} Browser
+          %th{scope: 'col'} Device
+          %th{scope: 'col'} Location
+      %tbody
+        -#- @links.each do |link|
+          = render link
+

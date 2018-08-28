@@ -9,10 +9,6 @@
     = bootstrap_form_for resource, as: resource_name, url: session_path(resource_name) do |f|
       = f.email_field :email, hide_label: true, autofocus: true, autocomplete: 'email', placeholder: 'Enter email address'
       = f.password_field :password, hide_label: true, autocomplete: 'off', placeholder: 'Enter your password'
-      = f.password_field :password_confirmation, hide_label: true, autocomplete: 'off', placeholder: 'Confirm your password'
-
-      -#- if devise_mapping.rememberable?
-        = f.check_box :remember_me
 
       .form-group
         %button.btn.btn-primary.btn-log.btn-block

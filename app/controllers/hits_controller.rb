@@ -12,6 +12,6 @@ class HitsController < ApplicationController
   private
 
   def find_link!
-    Link.where(ident: params[:id]).first!
+    @link = Link.where(ident: params[:link_id]).first!
   end
 end

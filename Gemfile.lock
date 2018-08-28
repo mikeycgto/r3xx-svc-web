@@ -61,6 +61,7 @@ GEM
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     crass (1.0.4)
+    device_detector (1.0.1)
     devise (4.4.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -73,6 +74,7 @@ GEM
     font-awesome-sass (5.0.13)
       sassc (>= 1.11)
     formatador (0.2.5)
+    geoip2_compat (0.0.3)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     guard (2.14.2)
@@ -233,8 +235,10 @@ DEPENDENCIES
   bootstrap_form!
   byebug
   connection_pool
+  device_detector
   devise
   font-awesome-sass (~> 5.0.13)
+  geoip2_compat
   guard
   guard-minitest
   haml-rails

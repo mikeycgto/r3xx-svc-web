@@ -1,4 +1,6 @@
 class Link < ApplicationRecord
+  include Pageable
+
   belongs_to :user, counter_cache: true, optional: true
 
   has_many :hits

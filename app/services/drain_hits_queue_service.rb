@@ -5,14 +5,14 @@ class DrainHitsQueueService
 
   def run
     @drain_service.call do |(domain, ident, raddr, ua)|
-      attrs = { domain: domain, remote_address: raddr, user_agent: ua }
+      attrs = { remote_address: raddr, user_agent: ua }
 
       begin
         link = Link.where(ident: ident).first!
 
         create_hit link, attrs
       rescue ActiveRecord::RecordNotFound
-        create_miss attrs.update(link_ident: ident)
+        create_miss attrs.update(link_ident: ident, domain: domain)
       end
     end
   end
@@ -20,10 +20,10 @@ class DrainHitsQueueService
   private
 
   def create_hit(link, attrs)
-    link.hits.create(attrs)
+    link.hits.create!(attrs)
   end
 
   def create_miss(attrs)
-    Miss.create(recorded_as_hit: true, **attrs)
+    Miss.create!(recorded_as_hit: true, **attrs)
   end
 end

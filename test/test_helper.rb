@@ -1,6 +1,10 @@
 require_relative '../config/environment'
 require 'rails/test_help'
 
+Dir[Rails.root.join('test', 'support', '**', '*.rb').to_s].each do |support_file|
+  require support_file
+end
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

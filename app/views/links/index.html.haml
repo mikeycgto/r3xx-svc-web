@@ -1,6 +1,8 @@
 .row.align-items-center
   .w-100.clearfix
-    %h2.mb-5.float-left Links
+    %h2.mb-5.float-left
+      Links
+      = link_to 'New Link', new_link_path, class: 'btn btn-link btn-inline btn-success'
 
     - unless user_signed_in?
       .alert.alert-info.float-right
@@ -17,3 +19,5 @@
       %tbody
         - @links.each do |link|
           = render link
+
+    = render 'shared/pagination_links', scope: @links

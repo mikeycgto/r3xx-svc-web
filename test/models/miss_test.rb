@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class MissTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @model_class = Miss
+  end
+
+  include DeviceDetectableTest
+  include LocationableTest
 end

@@ -7,8 +7,9 @@ class LinksController < ApplicationController
 
   def index
     @links = user_signed_in? ? links_from_current_user : links_from_session
+    @links = @links.order('created_at DESC').paged(page_params)
 
-    if @links.nil? then redirect_to root_url
+    if @links.empty? then redirect_to root_url
     else respond_with @links
     end
   end
@@ -45,12 +46,13 @@ class LinksController < ApplicationController
   end
 
   def links_from_current_user
-    links = Link.where(user: current_user)
-    links.any? ? links : nil
+    Link.where(user: current_user)
   end
 
   def links_from_session
-    Link.where(ident: session[:link_idents]).load if session.key? :link_idents
+    return Link.none unless session.key?(:link_idents)
+
+    Link.where(ident: session[:link_idents])
   end
 
   def create_link_from_current_user_or_session

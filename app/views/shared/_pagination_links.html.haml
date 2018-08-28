@@ -1,0 +1,29 @@
+- base_params = page_params.slice(:page_size)
+
+%nav{'aria-label' => "Pagination navigation"}
+  %ul.pagination.justify-content-center
+    - if scope.previous_page?
+      %li.page-item
+        = link_to links_path(base_params.merge(page_number: scope.previous_page_number)), class: 'page-link' do
+          %i.fas.fa-angle-double-left{'aria-hidden': 'true'}
+          Previous
+    - else
+      %li.page-item.disabled
+        .page-link
+          %i.fas.fa-angle-double-left{'aria-hidden': 'true'}
+          Previous
+
+    %li.page-item.disabled
+      .page-link
+        = "#{scope.page_number} of #{scope.pages_count}"
+
+    - if scope.next_page?
+      %li.page-item
+        = link_to links_path(base_params.merge(page_number: scope.next_page_number)), class: 'page-link' do
+          Next
+          %i.fas.fa-angle-double-right{'aria-hidden': 'true'}
+    - else
+      %li.page-item.disabled
+        .page-link
+          Next
+          %i.fas.fa-angle-double-right{'aria-hidden': 'true'}
